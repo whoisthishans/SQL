@@ -1,0 +1,80 @@
+*/ What names appear in all 101 years of data?*/
+
+SELECT first_name, SUM(num)
+FROM baby_names
+GROUP BY first_name
+HAVING COUNT(year) = 101
+ORDER BY SUM(num) DESC;
+
+
+*/ What is the type of popularity?*/
+
+SELECT first_name, SUM(num),
+CASE WHEN COUNT(year) > 80 THEN 'Classic'
+     WHEN COUNT(year) > 50 THEN 'Semi-Classic'
+     WHEN COUNT(year) > 20 THEN 'Semi-Trendy'
+        ELSE 'Trendy' END AS popularity_type
+FROM baby_names
+GROUP BY first_name
+ORDER BY first_name;
+
+
+*/ What are the top female names since 1920?*/
+
+SELECT 
+RANK() OVER(ORDER BY SUM (num) DESC) AS name_rank, first_name, SUM(num)
+FROM baby_names
+WHERE sex = 'F'
+GROUP BY first_name
+LIMIT 10;
+
+*/ You are having a female baby and want a name that has been popular since 2015, ends in the letter a */
+
+SELECT first_name
+FROM baby_names 
+WHERE sex = 'F' AND year > 2015 
+AND first_name LIKE '%a'
+GROUP BY first_name
+ORDER BY SUM(num) DESC;
+
+*/ When did the name Olivia become popular? */
+
+SELECT year, first_name, num,
+SUM(num) OVER (ORDER BY year) AS cumulative_olivias 
+FROM baby_names
+WHERE first_name = 'Olivia'
+ORDER by year;
+
+
+*/ What is the top male name in a given year? */
+
+SELECT b.year, b.first_name, b.num
+FROM baby_names as b
+INNER JOIN (
+    SELECT year, MAX(num) AS max_num
+    FROM baby_names 
+    WHERE sex = 'M'
+    GROUP BY year) AS subquery
+ON subquery.year = b.year
+    AND subquery.max_num = b.num
+    ORDER BY year DESC;
+    
+   */ Which male name has been in the top spot for the most years? HINT It is Michael with 44 years */ 
+    
+    WITH top_male_names AS (
+SELECT b.year, b.first_name, b.num
+FROM baby_names as b
+INNER JOIN (
+    SELECT year, MAX(num) AS max_num
+    FROM baby_names 
+    WHERE sex = 'M'
+    GROUP BY year) AS subquery
+ON subquery.year = b.year
+    AND subquery.max_num = b.num
+    ORDER BY year DESC
+)
+SELECT first_name, COUNT(first_name) as count_top_name
+FROM top_male_names
+GROUP BY first_name
+ORDER BY COUNT(first_name) DESC;
+
