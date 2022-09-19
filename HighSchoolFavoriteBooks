@@ -1,0 +1,31 @@
+CREATE TABLE AUTHORS (Name TEXT, Title TEXT, Published INTEGER);
+
+INSERT into AUTHORS VALUES ('Suzanne Collins', 'The Hunger Games', 2008);
+INSERT into AUTHORS VALUES ('Stephenie Meyer', 'Twilight', 2005);
+INSERT into AUTHORS VALUES ('Harper Lee', 'To Kill a Mockingbird', 1960);
+INSERT into AUTHORS VALUES ('George Orwell', '1984', 1949);
+INSERT into AUTHORS VALUES ('Dan Brown', 'Angels and Demons', 2000);
+INSERT into AUTHORS VALUES ('Joseph Heller', 'Catch-22', 1961);
+INSERT into AUTHORS VALUES ('Agatha Christie', 'A Murder Is Announced', 1950);
+INSERT into AUTHORS VALUES ('George Eliot', 'Middlemarch', 1871);
+INSERT into AUTHORS VALUES ('Lisa Wingate', 'Before We Were 
+Yours', 2017);
+INSERT into AUTHORS VALUES ('Toni Morrison', 'Beloved', 1987);
+INSERT into AUTHORS VALUES ('Ernest Hemingway', 'The Sun Also Rises', 1926);
+INSERT into AUTHORS VALUES ('Dr. Suess', 'The Cat In the Hat', 1957);
+INSERT into AUTHORS VALUES ('Suzanne Collins', 'Mockingjay', 2010);
+INSERT into AUTHORS VALUES ('J.K. Rowling', 'Harry Potter and the Goblet of Fire', 2000);
+INSERT into AUTHORS VALUES ('Agatha Christie', 'Evil Under The Sun', 1941);
+INSERT into AUTHORS VALUES ('Louis Sachar', 'Holes', 1998);
+INSERT into AUTHORS VALUES ('J.K Rowling', 'Harry Potter and the Prisoner of Azkaban', 1999);
+INSERT into AUTHORS VALUES ('J.K Rowling', 'Harry Potter and the Deathly Hallows', 2007);
+
+SELECT * FROM AUTHORS
+WHERE published < 1999
+ORDER BY name ASC;
+
+SELECT * FROM AUTHORS
+ORDER BY published DESC;
+
+SELECT * FROM AUTHORS
+ORDER BY name;
