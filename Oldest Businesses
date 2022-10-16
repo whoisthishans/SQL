@@ -1,0 +1,75 @@
+-What are the oldest and newest founding years?
+
+SELECT min(year_founded), max(year_founded) 
+    from businesses;
+    
+-How many businesses before 1000?
+
+SELECT COUNT(*) FROM businesses 
+WHERE year_founded < 1000;
+
+
+-What businesses before 1000?
+
+SELECT COUNT(*) FROM businesses 
+WHERE year_founded < 1000;
+
+-Join tables together to find out what type of companies are the oldest?
+
+SELECT bus.business, bus.year_founded, bus.country_code, cat.category
+FROM businesses as bus 
+INNER JOIN categories AS cat
+    ON bus.category_code = cat.category_code
+WHERE year_founded < 1000
+ORDER BY year_founded;
+
+-What industries constitute the oldest businesses in the world?
+
+SELECT cat.category, COUNT(cat.category) as n 
+FROM businesses as bus
+INNER JOIN categories as cat
+ON bus.category_code = cat.category_code
+GROUP BY cat.category
+ORDER BY n DESC
+LIMIT 10;
+
+-Count the number of oldest businesses and sort by continent
+
+SELECT MIN(bus.year_founded) as oldest, cnt.continent
+FROM businesses as bus
+INNER JOIN countries as cnt
+ON bus.country_code = cnt.country_code
+GROUP BY continent 
+ORDER BY oldest;
+
+-Join three tables
+
+SELECT business, year_founded, category, country, continent
+FROM businesses as bus 
+INNER JOIN categories as cat
+ON bus.category_code = cat.category_code
+LEFT JOIN countries as cnt
+ON bus.country_code = cnt.country_code;
+
+-How many businesses are on each continent and category?
+
+SELECT cnt.continent, cat.category, COUNT(*) AS n
+FROM businesses as bus
+INNER JOIN categories as cat
+ON bus.category_code = cat.category_code
+LEFT JOIN countries as cnt
+ON bus.country_code = cnt.country_code
+GROUP BY cnt.continent, cat.category;
+
+-Filter results to having a count greater than five
+
+
+SELECT cnt.continent, cat.category, COUNT(*) AS n
+FROM businesses as bus
+INNER JOIN categories as cat
+ON bus.category_code = cat.category_code
+LEFT JOIN countries as cnt
+ON bus.country_code = cnt.country_code
+GROUP BY cnt.continent, cat.category
+HAVING COUNT(*) > 5
+ORDER BY n DESC;
